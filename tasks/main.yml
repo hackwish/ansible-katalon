@@ -1,0 +1,9 @@
+---
+# tasks file for katalon
+
+- include: 01-get-katalon.yml
+  tags: katalon-get
+
+- include: 02-configure-katalon.yml
+  tags: katalon-configure
+  

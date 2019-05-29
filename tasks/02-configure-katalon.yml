@@ -1,0 +1,29 @@
+---
+- name: Verify katalon exists
+  stat: path=/opt/katalon/Katalon_Studio_Linux_64-{{ katalon_version }}.tar.gz
+  register: cli_stat
+
+- name: Unarchive katalon
+  unarchive:
+    src: /opt/katalon/Katalon_Studio_Linux_64-{{ katalon_version }}.tar.gz
+    dest: /opt/katalon/
+    remote_src: yes
+
+- name: Configure katalon on system bin.
+  file:
+    src: "/opt/katalon/Katalon_Studio_Linux_64-{{ katalon_version }}/katalon"
+    dest: "/usr/bin/katalon"
+    state: link
+  when: cli_stat.stat.exists
+
+- name: Configure katalon on system sbin.
+  file:
+    src: "/opt/katalon/Katalon_Studio_Linux_64-{{ katalon_version }}/katalon"
+    dest: "/usr/sbin/katalon"
+    state: link
+  when: cli_stat.stat.exists
+
+- command: "katalon -runMode=console | grep 'INFO: Katalon Version:'"
+  register: result
+  failed_when: false
+  changed_when: false

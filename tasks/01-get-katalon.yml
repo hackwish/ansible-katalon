@@ -1,0 +1,10 @@
+---
+- name: Create CLI directory
+  file: path=/opt/katalon/ state=directory mode="a+rw"
+
+- name: Get CLI.
+  get_url:
+    url:  https://github.com/katalon-studio/katalon-studio/releases/download/v{{ katalon_version }}/Katalon_Studio_Linux_64-{{ katalon_version }}.tar.gz
+    dest: "/opt/katalon/"
+    mode: 0755
+
